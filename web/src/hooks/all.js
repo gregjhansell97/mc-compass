@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNorth } from './mock-hooks';
+
+import { useNorth } from './use-north';
+import { useLocation } from './use-location';
+import { nearestMcDicks } from './nearest-mc-dicks';
+import { allLocs, closer, offsetFromNorth} from './mc-math';
 
 
 function useRotationEffect(goal) {
@@ -12,8 +16,6 @@ function useRotationEffect(goal) {
 }
 
 
-
-
 function useAngleToNearestMcDicks() {
     // them hooks
     const [lat, lon] = useLocation();
@@ -24,9 +26,15 @@ function useAngleToNearestMcDicks() {
     const mcLocs = allLocs(nearestMcDicks([lat, lon]));
     // find closest locs (takes care of overlap)
     const closest = locs.reduce((closestLoc, (loc) => (
-        mcLocs.find(mcLoc => closer(closestLoc, mcLoc)) ?? closest
+        mcLocs.find(mcLoc => closer(closestLoc, mcLoc)) ?? closestLoc
     )), [locs[0], mcLocs[0]]);
     // get north offset
     const northOffset = offsetFromNorth(loc1, loc2);
     return north - northOffset
+}
+
+
+export { 
+    useAngleToNearestMcDicks,
+    useRotationEffect
 }

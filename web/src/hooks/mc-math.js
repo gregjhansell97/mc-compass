@@ -3,10 +3,9 @@ const RAD_TO_DEG = 360/(2*Math.PI);
 const allLocs = (inputLat, inputLon) => {
     // discontinuities are for longitude where 180 = -180
     // so if something is at 179, it can be view also as -181
-    const sign = Math.sign(inputLon);
     return [
         [inputLat, inputLon],
-        [inputLat, inputLon - sign*360],
+        [inputLat, inputLon - Math.sign(inputLon)*360],
     ]
 }
 
