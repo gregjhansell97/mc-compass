@@ -23,9 +23,9 @@ function useAngleToNearestMcDicks() {
     const locs = allLocs(lat, lon);
     const mcLocs = allLocs(nearestMcDicks([lat, lon]));
     // find closest locs (takes care of overlap)
-    const closest = locs.reduce((closest, (loc) => 
-        return mcLocs.find(mcLoc => closer(closest, mcLoc)) ?? closest;
-    }), [locs[0], mcLocs[0])
+    const closest = locs.reduce((closestLoc, (loc) => (
+        mcLocs.find(mcLoc => closer(closestLoc, mcLoc)) ?? closest
+    )), [locs[0], mcLocs[0]]);
     // get north offset
     const northOffset = offsetFromNorth(loc1, loc2);
     return north - northOffset
